@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import CONTACTS from '../contacts';
 import ContactItem from '../components/ContactItem';
@@ -12,21 +12,43 @@ const Wrapper = styled.main`
 
 const Card = styled.div`
     width: 768px;
-    height: 100px;
+    padding: 16px;
     background-color: #eee;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
+    overflow-y: auto;
+`;
+
+const ContactList = styled.ul`
+    margin: 0;
+    padding: 16px;
+    list-style: none;
 `;
 
 const Contacts = () => {
 
-    return <Wrapper>
-        <Card />
-        <ul>
-            {CONTACTS.map(contact => (
-                <ContactItem key={contact.id} contact={contact} />
-            ))}
-        </ul>
-    </Wrapper>
+    const [contacts, setContacts] = useState(CONTACTS);
+
+    const handleRemoveContact = (removeContactId: string) => {
+        setContacts(contacts =>
+            contacts.filter(contact => contact.id !== removeContactId)
+        );
+    };
+
+    return (
+        <Wrapper>
+            <Card>
+                <ContactList>
+                    {contacts.map(contact => (
+                        <ContactItem
+                            key={contact.id}
+                            contact={contact}
+                            onRemoveContact={handleRemoveContact}
+                        />
+                    ))}
+                </ContactList>
+            </Card>
+        </Wrapper>
+    );
 };
 
 export default Contacts;

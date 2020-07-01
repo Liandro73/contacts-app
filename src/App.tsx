@@ -13,7 +13,7 @@ const App = () => {
 
 const Styles = createGlobalStyle`
   html {
-    font-soze: 16px;
+    font-size: 16px;
     font-family: sans-serif;
   }
 
