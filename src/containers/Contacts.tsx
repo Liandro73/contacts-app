@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import CONTACTS from '../contacts';
 import ContactItem from '../components/ContactItem';
+import AddContactForm from '../components/AddContactForm';
+import Contact from '../models/Contact';
 
 const Wrapper = styled.main`
     display: flex;
@@ -26,6 +28,7 @@ const ContactList = styled.ul`
 
 const Contacts = () => {
 
+    const [isAddindContact, setAddingContact] = useState(false);
     const [contacts, setContacts] = useState(CONTACTS);
 
     const handleRemoveContact = (removeContactId: string) => {
@@ -34,9 +37,21 @@ const Contacts = () => {
         );
     };
 
+    const handleAddContent = (contact: Contact) => {
+        setContacts(contacts => contacts.concat(contact));
+        setAddingContact(false);
+    };
+
     return (
         <Wrapper>
             <Card>
+                <header>
+                    {isAddindContact &&
+                        <AddContactForm onAddContact={handleAddContent} />}
+                    <button onClick={() => setAddingContact(true)}>
+                        Adicionar contato
+                    </button>
+                </header>
                 <ContactList>
                     {contacts.map(contact => (
                         <ContactItem
